@@ -54,7 +54,34 @@ Cách hoạt động:
 ### Bước 1: Cập nhật docker-compose.yml
 #### Sửa file docker-compose thêm service N8N
 
-- Vào thư mục dự án của bài tập 3 wordpress-project
-- Sửa file nano docker-compose.yml
+- Vào thư mục dự án của bài tập 3 ```wordpress-project```
+- Sửa file ```nano docker-compose.yml```
 - Thêm service n8n vào file và lưu lại.
+
+```
+n8n:
+    image: n8nio/n8n:latest
+    container_name: wp_n8n
+    restart: always
+    ports:
+      - "5678:5678"                            # Port mặc định của n8n
+    environment:
+      - TZ=Asia/Ho_Chi_Minh
+      # Điền sub-domain đã cấu hình trỏ về service n8n này trong Cloudflare Dashboard vào đây:
+      - WEBHOOK_URL=https://n8n.appwebtuanha.io.vn/ 
+    volumes:
+      - ./n8n-data:/home/node/.n8n            # Lưu lại dữ liệu của n8n để không bị mất khi restart
+```
+#### Khởi động lại hệ thống
+```
+docker compose up -d
+```
+
+#### Kiểm tra các service
+```
+docker compose ps
+```
+
+<img width="1605" height="133" alt="image" src="https://github.com/user-attachments/assets/6d147e5f-a346-4a8e-a322-a9992d66079e" />
+
 
