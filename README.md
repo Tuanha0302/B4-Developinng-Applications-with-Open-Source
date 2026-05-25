@@ -84,4 +84,10 @@ docker compose ps
 
 <img width="1605" height="133" alt="image" src="https://github.com/user-attachments/assets/6d147e5f-a346-4a8e-a322-a9992d66079e" />
 
-
+### Bước 2: Cấu hình thêm route trên cloudflare tunnel
+- Cấu hình Tunel cloudflare để truy cập vào các dịch vụ bằng các subdomain
+- Thêm 2 route sau:
+| Subdomain | Service URL |
+|---|---|
+| phpmyadmin.appwebtuanha.io.vn| http://phpmyadmin:80 |
+| n8n.appwebtuanha.io.vn | http://n8n:5678 |
