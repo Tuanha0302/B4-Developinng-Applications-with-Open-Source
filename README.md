@@ -1,4 +1,4 @@
-# B4-Developinng-Applications-with-Open-Source
+<img width="1912" height="945" alt="image" src="https://github.com/user-attachments/assets/8c0a6cd7-be57-4063-adf8-ff771e88dbac" /># B4-Developinng-Applications-with-Open-Source
 # KHAI THÁC N8N ĐỂ TỰ ĐỘNG ĐĂNG BÀI LÊN WORDPRESS
 - Môn học: Phát triển ứng dụng với mã nguồn mở - TEE0421
 - Họ và tên: Ngụy Đình Tuấn Hà
@@ -146,3 +146,36 @@ docker compose ps
 #### Bước 5.3. Tạo Telegram Bot
 Mở Telegram và tìm kiếm BotFather có tích xanh chính chủ
 Bấm /start
+<img width="1436" height="943" alt="image" src="https://github.com/user-attachments/assets/53e43f59-ee9d-4b6d-9811-23a62e0948f3" />
+
+##### Nhập lệnh /newbot
+<img width="1435" height="943" alt="image" src="https://github.com/user-attachments/assets/933fa404-9548-4e57-9351-44c93d522a39" />
+
+##### Đặt tên cho bot Bot_n8n_wordpress
+##### Đặt usename cho bot, bắt buộc kết thúc bằng bot (tuanha_n8n_bot)
+##### Copy token HTTP API
+<img width="1437" height="949" alt="image" src="https://github.com/user-attachments/assets/83f24122-b69a-4c2e-87a8-afe0a7e014bb" />
+
+##### Chat với bot mới lần đầu:
+<img width="1442" height="949" alt="image" src="https://github.com/user-attachments/assets/e7fa07ae-64bd-4137-8bb3-d355f66533a8" />
+
+#### Bước 5.4. Cấu hình node Telegram trong workflow
+##### Add trigger node: tìm node: Telegram -> OnMessage ; cấu hình Credential: Set up Credential -> cần Nhập Access Token
+<img width="1915" height="946" alt="image" src="https://github.com/user-attachments/assets/b0850663-fa77-4228-9e34-acfa8f0d5e03" />
+
+##### Dán token HTTP API từ BotFather gửi -> Save
+<img width="1919" height="942" alt="image" src="https://github.com/user-attachments/assets/cab48db3-b693-478f-9624-f45f182a164f" />
+
+##### Nhấn Test this trigger để kiểm tra, vào Telegram Bot vừa tạo rồi gửi bất kỳ hello
+<img width="1440" height="947" alt="image" src="https://github.com/user-attachments/assets/569d0efe-9441-48c4-8a83-3b93e1f52923" />
+
+##### Nếu kết nối thành công, output của node sẽ hiện nội dung
+<img width="1912" height="945" alt="Screenshot 2026-05-25 220826" src="https://github.com/user-attachments/assets/e66fa46f-f185-4041-bf88-708bc903d249" />
+
+#### Bước 5.5. Cấu hình node AI Google Gemini
+##### Add (nối tiếp vào sau node Telegram Trigger) node: Google Gemini => Message a model
+<img width="1919" height="987" alt="Untitled" src="https://github.com/user-attachments/assets/72d061eb-586f-488b-8ff1-f9f75420db15" />
+
+##### Thực hiện Set up Credential -> Cần nhập Token API Key
+- Lấy API KEY tại trang: https://aistudio.google.com => https://aistudio.google.com/api-keys
+- Tạo project mới, rồi tạo API KEY
