@@ -179,3 +179,153 @@ Bấm /start
 ##### Thực hiện Set up Credential -> Cần nhập Token API Key
 - Lấy API KEY tại trang: https://aistudio.google.com => https://aistudio.google.com/api-keys
 - Tạo project mới, rồi tạo API KEY
+
+<img width="1916" height="992" alt="image" src="https://github.com/user-attachments/assets/34dbb55a-c256-4563-aca9-930c89557c53" />
+
+- Nhập API key lên giao diện setup trong n8n rồi nhấn save.
+
+<img width="1914" height="995" alt="image" src="https://github.com/user-attachments/assets/6f49f804-fd83-4b28-bb1a-0f69d86c19c0" />
+
+- Kéo thả nội dung đã chát với bot của telegram (phía bên trái) vào nội dung phần PROMPT kết quả được {{ $json.message.text }}, cần gõ thêm vào sau {{ $json.message.text }} để promt dài hơn
+```
+{{ $json.message.text }}.Kết quả sinh ra ở định dạng HTML+CSS để tôi dùng HTML+CSS này tạo bài viết cho wordpress.
+Trả về JSON với 2 trường:
+- post_title
+- post_content
+```
+- Turn on Output Content as JSON : để kết quả trả về dạng json
+
+<img width="1919" height="989" alt="image" src="https://github.com/user-attachments/assets/de95b83c-3e0f-411b-b4a3-d88967387028" />
+
+#### Bước 5.6. Cấu hình node Code in JavaSript
+- Add (nối tiếp vào sau node Message a model) node: Code in JavaScript
+- Dán code sau:
+```
+// 1. lấy dữ liệu gốc
+const rawText = $input.first().json.content.parts[0].text;
+
+// 2. Làm sạch chuỗi JSON
+let cleanText = rawText.trim();
+
+// --- 🌟 BƯỚC SỬA ĐỔI 1: Cắt bỏ chữ thừa của AI trước khối ```json nếu có ---
+const markdownIndex = cleanText.indexOf("```json");
+if (markdownIndex !== -1) {
+    cleanText = cleanText.substring(markdownIndex);
+}
+
+// --- 🌟 BƯỚC SỬA ĐỔI 2: Cắt bỏ chữ thừa của AI sau dấu ngoặc nhọn đóng } cuối cùng nếu có ---
+const lastBracketIndex = cleanText.lastIndexOf("}");
+const lastMarkdownIndex = cleanText.lastIndexOf("```");
+if (lastBracketIndex !== -1) {
+    // Nếu AI có viết ``` ở cuối, ta giữ lại đến hết dấu ```, nếu không thì giữ đến dấu }
+    const cutEndIndex = (lastMarkdownIndex > lastBracketIndex) ? lastMarkdownIndex + 3 : lastBracketIndex + 1;
+    cleanText = cleanText.substring(0, cutEndIndex);
+}
+// -----------------------------------------------------------------------------
+
+// Xóa đoạn ```json ở đầu nếu có (Đoạn này giữ nguyên 100% code cũ của bạn)
+if (cleanText.startsWith("```json")) {
+  cleanText = cleanText.substring(7);
+} else if (cleanText.startsWith("```")) {
+  cleanText = cleanText.substring(3);
+}
+
+// Xóa đoạn ``` ở cuối nếu có (Đoạn này giữ nguyên 100% code cũ của bạn)
+if (cleanText.endsWith("```")) {
+  cleanText = cleanText.substring(0, cleanText.length - 3);
+}
+
+cleanText = cleanText.trim();
+
+// 3. Chuyển đổi chuỗi thành Object trong JavaScript (Đoạn này giữ nguyên 100% code cũ của bạn)
+const cleanData = JSON.parse(cleanText);
+
+// 4. Trả về kết quả định dạng lại gọn gàng cho node WordPress sử dụng (Đoạn này giữ nguyên 100% code cũ của bạn)
+return {
+  title: cleanData.post_title,
+  content: cleanData.post_content
+};
+```
+##### Test output node:
+
+<img width="1914" height="979" alt="image" src="https://github.com/user-attachments/assets/8a6b6cf7-572c-405e-9caf-258e80c66201" />
+
+<img width="1914" height="985" alt="image" src="https://github.com/user-attachments/assets/9374e195-dd13-4133-ace5-6a9469453917" />
+
+#### Bước 5.7. Cấu hình node WordPress
+- Add (nối tiếp vào sau node Code in JavaScript) node: WordPress => Create a Post
+- Lấy "Mật khẩu ứng dụng" (Application Password) từ WordPress
+  - Truy cập trang quản trị: https://wordpress.appwebtuanha.io.vn/wp-admin
+  - Vào Tài khoản -> chọn user lúc thiết lập -> Mật khẩu ứng dụng -> Nhập tên n8n -> Thêm mật khẩu ứng dụng
+
+<img width="1919" height="737" alt="image" src="https://github.com/user-attachments/assets/fe72cec1-85cb-4b5f-bc52-cefecada3186" />
+
+<img width="1758" height="490" alt="image" src="https://github.com/user-attachments/assets/0e15f1e9-ce7a-47c1-8534-b4a06ea786d4" />
+
+##### Copy mật khẩu rồi dán vào password của n8n credential, điền các thông tin -> save
+- Ignore SSL Issues (Insecure): TURN ON
+- Wordpress URL: điền giá trị https://wordpress.nguyentrunghiieu.id.vn/ (subdomain1)
+<img width="1917" height="991" alt="image" src="https://github.com/user-attachments/assets/d404c867-c41e-423a-b820-c893e1ff9c9f" />
+
+##### Mapping dữ liệu
+- Kéo thả tiêu đề (Title): Nhìn sang cột dữ liệu bên trái của node JavaScript trước đó, bạn sẽ thấy cột title. Nhấp giữ chuột vào trường title này và kéo thả trực tiếp vào ô nhập liệu Title của node WordPress. (Nó sẽ tự động điền mã biểu thức dạng {{ $json.title }}).
+- Kéo thả nội dung (Content): Tương tự, nhấp giữ chuột vào trường content ở cột bên trái và kéo thả vào ô nhập liệu Content của node WordPress. (Nó sẽ tự động điền {{ $('Message a model').item.json.content }}).
+- Cấu hình Trạng thái xuất bản (Status):
+
+##### Nhấp vào nút Add Field (Thêm thuộc tính) ở cuối cấu hình.
+- Chọn thuộc tính Status.
+- Ở ô giá trị của Status, chọn là Publish (để bài viết hiển thị công khai trên web ngay lập tức thay vì nằm ở mục Bản nháp - Draft).
+
+<img width="1912" height="984" alt="image" src="https://github.com/user-attachments/assets/cb2f640c-5f27-4dc0-9ecd-95a916406e79" />
+
+##### Workflow hoàn chỉnh
+
+<img width="1917" height="983" alt="image" src="https://github.com/user-attachments/assets/785d0ecc-420a-4eb6-9f49-53d3029e4a16" />
+#### Bước 5.8. PUBLISH FLOW
+##### Nút này thực hiện việc xuất bản flow <=> flow sẽ tự động thực thi khi thoả mãn điều kiện trigger
+
+<img width="1916" height="995" alt="image" src="https://github.com/user-attachments/assets/02d1f169-c378-49e4-be23-a6e9d55c52c5" />
+
+### 3. KẾT QUẢ ĐẠT ĐƯỢC
+#### 3.1. Kết quả demo
+##### Chat với tele bot với yêu cầu : 5 Lợi Ích Tuyệt Vời Của Việc Đọc Sách Mỗi Ngày Bạn Nên Biết
+
+<img width="1439" height="946" alt="image" src="https://github.com/user-attachments/assets/f92af5f7-94e1-4c2d-9236-7ace204492a7" />
+
+##### Flow n8n:
+
+<img width="1913" height="987" alt="image" src="https://github.com/user-attachments/assets/c2e36385-0c60-4e84-aa18-27dce702ce2e" />
+
+##### Bài đăng trên Wordpress
+
+<img width="1911" height="952" alt="image" src="https://github.com/user-attachments/assets/1f6ca9b8-4794-42f6-9473-6721093b0c5e" />
+
+### 4. NHẬN XÉT
+#### 4.1. Quy trình vận hành hệ thống
+Hệ thống hoạt động theo mô hình khép kín tự động hóa hoàn toàn:
+
+- Yêu cầu đầu vào: Người dùng gửi yêu cầu viết bài bằng tiếng Việt qua Telegram Bot của cá nhân.
+
+- Kích hoạt & Xử lý: Node Telegram Trigger trên n8n nhận tin nhắn và chuyển tiếp tới Google Gemini AI.
+
+- Sinh nội dung: Gemini AI nhận diện ngữ cảnh, tự động thiết kế bài viết chuẩn định dạng HTML/CSS và đóng gói dưới dạng cấu trúc JSON.
+
+- Lọc dữ liệu: Node Code JavaScript lọc sạch các ký tự markdown thừa, chuẩn hóa hai trường dữ liệu title và content.
+
+- Xuất bản: Node WordPress kết nối qua Application Password bảo mật, tự động tạo và xuất bản bài viết trực tiếp lên website.
+
+#### 4.2. Những điều đã đạt được & Kiến thức tích lũy
+- Triển khai hạ tầng Container: Làm chủ kỹ thuật cấu trúc file docker-compose.yml để chạy đồng thời nhiều service liên kết chặt chẽ (MariaDB, WordPress, phpMyAdmin, n8n, Cloudflared).
+
+- Tự động hóa & Tích hợp AI: Làm quen với nền tảng n8n, cách xây dựng kịch bản (workflow) tích hợp các API hiện đại như Telegram API, Google Gemini API và WordPress Rest API.
+
+- Xử lý dữ liệu: Ứng dụng JavaScript cơ bản để xử lý, làm sạch chuỗi và phân tích cú pháp (parse JSON) thực tế, khắc phục triệt để lỗi phân quyền (permission) dữ liệu trong Docker.
+
+#### 4.3. Những vấn đề tồn tại & Hướng phát triển
+Tính ổn định của AI: Đôi khi Gemini AI có thể phản hồi sai cấu trúc JSON mong muốn dẫn đến lỗi phân tích cú pháp ở node JS (đã được khắc phục tạm thời bằng mã xử lý lỗi nâng cao).
+
+Quản lý tài nguyên: Việc chạy nhiều service nặng trên môi trường ảo hóa Ubuntu cần được tối ưu cấu hình để tránh hiện tượng tràn RAM.
+
+Hướng phát triển: Tích hợp thêm AI tạo ảnh (như Imagen) để tự động sinh ảnh đại diện (Featured Image) cho bài viết WordPress giúp bài đăng sinh động hơn.
+
+
