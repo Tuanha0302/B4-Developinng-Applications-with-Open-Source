@@ -250,8 +250,6 @@ return {
 
 <img width="1914" height="979" alt="image" src="https://github.com/user-attachments/assets/8a6b6cf7-572c-405e-9caf-258e80c66201" />
 
-<img width="1914" height="985" alt="image" src="https://github.com/user-attachments/assets/9374e195-dd13-4133-ace5-6a9469453917" />
-
 #### Bước 5.7. Cấu hình node WordPress
 - Add (nối tiếp vào sau node Code in JavaScript) node: WordPress => Create a Post
 - Lấy "Mật khẩu ứng dụng" (Application Password) từ WordPress
