@@ -1,4 +1,4 @@
-<img width="1912" height="945" alt="image" src="https://github.com/user-attachments/assets/8c0a6cd7-be57-4063-adf8-ff771e88dbac" /># B4-Developinng-Applications-with-Open-Source
+# B4-Developinng-Applications-with-Open-Source
 # KHAI THÁC N8N ĐỂ TỰ ĐỘNG ĐĂNG BÀI LÊN WORDPRESS
 - Môn học: Phát triển ứng dụng với mã nguồn mở - TEE0421
 - Họ và tên: Ngụy Đình Tuấn Hà
