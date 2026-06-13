@@ -280,6 +280,7 @@ return {
 
 <img width="1917" height="983" alt="image" src="https://github.com/user-attachments/assets/785d0ecc-420a-4eb6-9f49-53d3029e4a16" />
 #### Bước 5.8. PUBLISH FLOW
+
 ##### Nút này thực hiện việc xuất bản flow <=> flow sẽ tự động thực thi khi thoả mãn điều kiện trigger
 
 <img width="1916" height="995" alt="image" src="https://github.com/user-attachments/assets/02d1f169-c378-49e4-be23-a6e9d55c52c5" />
