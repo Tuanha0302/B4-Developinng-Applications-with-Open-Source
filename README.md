@@ -279,6 +279,7 @@ return {
 ##### Workflow hoàn chỉnh
 
 <img width="1917" height="983" alt="image" src="https://github.com/user-attachments/assets/785d0ecc-420a-4eb6-9f49-53d3029e4a16" />
+
 #### Bước 5.8. PUBLISH FLOW
 
 ##### Nút này thực hiện việc xuất bản flow <=> flow sẽ tự động thực thi khi thoả mãn điều kiện trigger
