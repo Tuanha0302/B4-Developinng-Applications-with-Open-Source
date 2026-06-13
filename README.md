@@ -262,7 +262,7 @@ return {
 
 ##### Copy mật khẩu rồi dán vào password của n8n credential, điền các thông tin -> save
 - Ignore SSL Issues (Insecure): TURN ON
-- Wordpress URL: điền giá trị https://wordpress.nguyentrunghiieu.id.vn/ (subdomain1)
+- Wordpress URL: điền giá trị https://wordpress.appwebtuanha.io.vn/ (subdomain1)
 <img width="1917" height="991" alt="image" src="https://github.com/user-attachments/assets/d404c867-c41e-423a-b820-c893e1ff9c9f" />
 
 ##### Mapping dữ liệu
