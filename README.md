@@ -154,7 +154,7 @@ Bấm /start
 ##### Đặt tên cho bot Bot_n8n_wordpress
 ##### Đặt usename cho bot, bắt buộc kết thúc bằng bot (tuanha_n8n_bot)
 ##### Copy token HTTP API
-<img width="1437" height="949" alt="image" src="https://github.com/user-attachments/assets/83f24122-b69a-4c2e-87a8-afe0a7e014bb" />
+<img width="1164" height="724" alt="Screenshot 2026-06-14 220956" src="https://github.com/user-attachments/assets/d57a837b-b963-4e32-ba32-4cd3ddc2fd48" />
 
 ##### Chat với bot mới lần đầu:
 <img width="1442" height="949" alt="image" src="https://github.com/user-attachments/assets/e7fa07ae-64bd-4137-8bb3-d355f66533a8" />
@@ -180,7 +180,8 @@ Bấm /start
 - Lấy API KEY tại trang: https://aistudio.google.com => https://aistudio.google.com/api-keys
 - Tạo project mới, rồi tạo API KEY
 
-<img width="1916" height="992" alt="image" src="https://github.com/user-attachments/assets/34dbb55a-c256-4563-aca9-930c89557c53" />
+<img width="1172" height="608" alt="Screenshot 2026-06-14 221132" src="https://github.com/user-attachments/assets/2d8f384f-4916-4bda-a3b8-05c5c84ede40" />
+
 
 - Nhập API key lên giao diện setup trong n8n rồi nhấn save.
 
